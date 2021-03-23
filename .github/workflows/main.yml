@@ -17,5 +17,5 @@ jobs:
         run: |
           docker build -t grigciulache/httpd4 .
           docker push grigciulache/httpd4
-          docker rm -f httpd4
-          docker run -it -d -p 80:80 --name httpd4 grigciulache/httpd4
+          # docker rm -f httpd4
+          
