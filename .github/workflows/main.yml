@@ -1,26 +1,19 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
-
-# Controls when the action will run. 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: docker login
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD}}
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: docker build&push
+        run: |
+          docker build -t grigciulache/httpd3 .
+          docker push grigciulache/httpd3
